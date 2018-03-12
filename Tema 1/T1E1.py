@@ -5,6 +5,6 @@ def machine_precision():
         print('Machine precision is bigger than ' + str(power) + '.')
         power = power + 1
     else:
-        print('Machine precisio is ' + str(power) + '.')
+        print('Machine precision is ' + str(power) + '.')
 
 machine_precision()

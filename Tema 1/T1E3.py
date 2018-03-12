@@ -12,7 +12,7 @@ C=np.dot(A,B)
 def multiply_Strassen(a,b,n,nmin):
     c=0
     if n==nmin :
-        return a*b
+        return np.dot(a,b)
 
 
     else:
@@ -54,9 +54,11 @@ B=np.loadtxt('matrix_B.txt', delimiter=' ',comments="#")
 n=len(A)
 
 
-c=multiply_Strassen(A, B,4,1)
-print(np.dot(A,B),"\n")
 
-nmin=input("Choose nmin")
+print(np.dot(A,B),"\n")
+nmin = int(input("Choose nmin"))
+while nmin %2==1:
+    nmin=int(input("Choose nmin"))
+c=multiply_Strassen(A, B,n,nmin)
 print(c)
 
