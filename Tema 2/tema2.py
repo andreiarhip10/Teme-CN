@@ -54,7 +54,8 @@ def algoritm(a,b,n):
 
         ##gauss 5,6,7
         for i in range(l+1,n):
-            if  a[l][l]>0:
+            #verificare impartire 
+            if abs(a[l][l]) > eps:
                 f=-a[i][l]/a[l][l]
                 b[i]=b[i]-f*b[l]
                 for j in range(l,n):
