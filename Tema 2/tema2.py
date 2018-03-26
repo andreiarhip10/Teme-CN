@@ -1,8 +1,23 @@
 import numpy as np
 from numpy.linalg import inv
+from random import randint
 
-ainit=np.array([[0,0,4,],[0,2,6],[2,4,3]])
-binit=np.array([2,3,1])
+def random_system_matrix():
+    n = randint(2, 5)
+    a = [];
+    b = [];
+    line = [];
+    for i in range(0, n):
+        b.append(randint(0, 100))
+        for j in range(0, n):
+            line.append(randint(0, 100))
+        a.append(line)
+        line = []
+    return a, b
+#print (random_system_matrix()[1])
+#ainit=np.array([[0,0,4,],[0,2,6],[2,4,3]])
+#binit=np.array([2,3,1])
+(ainit, binit) = random_system_matrix()
 a=ainit
 b=binit
 n=len(a)
