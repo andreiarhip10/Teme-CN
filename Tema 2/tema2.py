@@ -2,12 +2,14 @@ import numpy as np
 from numpy.linalg import inv
 from random import randint
 import math
+import copy
 
 def random_system_matrix():
-    n = randint(2, 5)
-    a = [];
-    b = [];
-    line = [];
+    n = randint(2, 4)
+    #n=102
+    a = []
+    b = []
+    line = []
     for i in range(0, n):
         b.append(randint(0, 100))
         for j in range(0, n):
@@ -16,15 +18,16 @@ def random_system_matrix():
         line = []
     return a, b
 #print (random_system_matrix()[1])
-# ainit=np.array([[0,0,4,],[0,2,6],[2,4,3]])
-# binit=np.array([2,3,1])
+#ainit=np.array([[0,0,4,],[0,2,6],[2,4,3]])
+#binit=np.array([2,3,1])
 (ainit, binit) = random_system_matrix()
-a=ainit
-b=binit
+a=copy.deepcopy(ainit)
+b=copy.deepcopy(binit)
 n=len(a)
+
 xgauss = np.zeros((n,), dtype=float)
 
-m=2
+m=3
 #m = int(input("Precizia, m"))
 eps=pow(10,-m)
 
@@ -38,6 +41,7 @@ xlib = np.zeros((n,), dtype=float)
 if np.linalg.det(ainit)!=0:
      print("Rezultat librarie: ")
      xlib=(np.dot(inv(ainit),binit))
+     #xlib= np.linalg.solve(ainit, binit)
      print(xlib)
 else:
      print("Nu are solutie")
@@ -47,9 +51,10 @@ else:
 def verifica_solutie(x):
     print(x)
     print("Rezultat verificare: ")
-    print(np.dot(ainit,x)-binit)
+    print(abs(np.dot(ainit,x)-binit))
 
 # metoda substitutiei
+
 def rez_sistem(a,b,n,x):
 
     x[n - 1] = b[n - 1] / a[n - 1][n - 1]
@@ -83,14 +88,14 @@ def algoritm(a,b,n):
 
     #dat de la tastatura
     #eps=0
-    while(l<n-1 and a[l][l]>eps):
+    while(l<n-1 and abs(a[l][l])>eps):
 
         ##gauss 5,6,7
         for i in range(l+1,n):
             #verificare impartire 
             if abs(a[l][l]) > eps:
                 f=-a[i][l]/a[l][l]
-                b[i]=b[i]-f*b[l]
+                b[i]=b[i]+f*b[l]
                 for j in range(l,n):
                     a[i][j]+=f*a[l][j]
         l+=1
@@ -112,8 +117,8 @@ def algoritm(a,b,n):
         b[i0] = b[l]
         b[l] = aux
 
-    if a[l][l]<=eps:
-        print("Matrice singulara")
+    if abs(a[l][l])<=eps:
+        print("matrice singulara")
     else:
         # print("Matricea A transformata: ")
         # for i in range(0,n):
@@ -121,14 +126,29 @@ def algoritm(a,b,n):
         rez_sistem(a,b,n,xgauss)
         verifica_solutie(xgauss)
 
+
 print("Rezultat Gauss: ")
 algoritm(a,b,n)
 
+#print(gauss(a))
+# print(ainit)
+# print(a)
+
 no1=[]
 no2=[]
+
 print("Norme: ")
-inva=inv(ainit)
-for i in range(0,n):
-    no1.append(math.sqrt(pow(xgauss[i],2)+pow(xlib[i],2)-2*xgauss[i]*xlib[i]))
-print(no1)
-print(no2)
+inva=(np.dot(inv(ainit),binit))
+
+# for i in range(0,n):
+#     no1.append(math.sqrt(pow(xgauss[i],2)+pow(xlib[i],2)-2*xgauss[i]*xlib[i]))
+#     no2.append(math.sqrt(pow(xgauss[i],2)+pow(inva[i],2)-2*xgauss[i]*inva[i]))
+#print(no1)
+#print(no2)
+
+norma1=abs(xgauss-xlib)
+norma2=abs(xgauss-inva)
+print(norma1,norma2)
+
+print("Inversa: ")
+print(inv(ainit))
