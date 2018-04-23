@@ -49,6 +49,16 @@ def read_matrix(file):
                 if vector[i][j][1] == vector[i][j-1][1]:
                     vector[i][j][0] += vector[i][j-1][1]
                     vector[i].remove(vector[i][j-1])
+
+        ok=1
+        for i in range(0, 2018):
+            if len(vector[i])>10:
+                ok=0
+                break
+        if ok==1:
+            print("Exista maxim 10 elemente nenule pe linie")
+        else:
+            print("Nu")
         return (vector)
 
 
